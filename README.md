@@ -1,4 +1,4 @@
-![WifiSnare](https://github.com/user-attachments/assets/19673186-c069-45de-b324-15bd16aaa3aa)
+![WifiSnare](https://github.com/user-attachments/assets/23dad4db-6bda-4d47-b5af-698ed5451e18)
 
 # WifiSnare
 It capture 2.4GHz WiFi passwords using Evil-Twin attack.
