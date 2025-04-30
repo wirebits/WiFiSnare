@@ -59,6 +59,8 @@ String credisetsSSIDPage() {
         credisets += " const blob = new Blob([content], { type: 'text/plain' });";
         credisets += " const link = document.createElement('a');";
         credisets += " link.href = URL.createObjectURL(blob);";
+        credisets += " const safeSSID = ssid.replace(/[^a-zA-Z0-9]/g, '_');";
+        credisets += " link.download = 'credentials_' + safeSSID + '.txt';";
         credisets += " link.download = 'credentials.txt';";
         credisets += " document.body.appendChild(link);";
         credisets += " link.click();";
