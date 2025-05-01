@@ -7,6 +7,7 @@ It capture 2.4GHz WiFi passwords using Evil-Twin attack.
 - Simple Setup.
 - Set SSID easily for attack.
 - LED Status for Right and Wrong Passwords.
+- LED Status for checking that victim is connected or not.
 - Download captured password on the system in a `.txt` file.
 
 # Supported Board
