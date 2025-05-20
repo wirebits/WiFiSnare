@@ -44,7 +44,7 @@ It capture 2.4GHz WiFi passwords using Evil-Twin attack.
 7. Upload the code.
 ## Via ESP8266 Flasher
 1. Download the NodeMCU ESP8266 Flasher from [here](https://github.com/nodemcu/nodemcu-flasher) according to your operating system.
-2. Download the `.bin` file from [here]().
+2. Download the `.bin` file from [here](https://github.com/wirebits/WiFiSnare/releases/download/v1.0/WiFiSnare.bin).
 3. Open NodeMCU ESP8266 Flasher.
 4. Click on `Advanced` Tab.
 5. Click on `Restore Default` button.
