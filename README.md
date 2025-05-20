@@ -1,19 +1,19 @@
 ![WifiSnare](https://github.com/user-attachments/assets/23dad4db-6bda-4d47-b5af-698ed5451e18)
 
-# WifiSnare
+# WiFiSnare
 It capture 2.4GHz WiFi passwords using Evil-Twin attack.
 
 # Key Features
 - Simple Setup.
-- Set SSID easily for attack.
+- Select network easily for eviltwin attack.
+- It deauthenticates network parallelly.
 - LED Status for Right and Wrong Passwords.
-- LED Status for checking that victim is connected or not.
 - Download captured password on the system in a `.txt` file.
 
 # Supported Board
-- It supports NodeMCU ESP8266 Boards only.
+- It supports microcontroller boards which contain `ESP8266` chipset only.
 - It supports 2.4GHz frequency only.
-- If possible, use those NodeMCU ESP8266 boards which contain `CP2102` driver chipset.
+- If possible, use those ESP8266 microcontroller boards which contain `CP2102` driver chipset.
 
 # Setup
 1. Download Arduino IDE from [here](https://www.arduino.cc/en/software) according to your Operating System.
@@ -22,11 +22,11 @@ It capture 2.4GHz WiFi passwords using Evil-Twin attack.
 4. Paste the following link :
    
    ```
-   https://arduino.esp8266.com/stable/package_esp8266com_index.json
+   https://raw.githubusercontent.com/SpacehuhnTech/arduino/main/package_spacehuhn_index.json
    ```
 5. Click on `OK`.
 6. Go to `Tools` → `Board` → `Board Manager`.
-7. Wait for sometimes and search `esp8266` by `ESP8266 Community`.
+7. Wait for sometimes and search `deauther` by `Spacehuhn Technologies`.
 8. Simply install it.
 9. Wait for sometime and after that it is installed.
 10. Restart the Arduino IDE.
@@ -35,16 +35,16 @@ It capture 2.4GHz WiFi passwords using Evil-Twin attack.
 # Install
 ## Via Arduino IDE
 1. Download or Clone the Repository.
-2. Open the folder and just double click on `WifiSnare.ino` file.
+2. Open the folder and just double click on `WiFiSnare.ino` file.
 3. It opens in Arduino IDE.
 4. Compile the code.
-5. Select the correct board from the `Tools` → `Board` → `ESP8266 Boards`.
-   - It is generally `NodeMCU 1.0 (ESP-12E Module)`.
+5. Select the correct board from the `Tools` → `Board` → `Deauther ESP8266 Boards`.
+   - It is `NodeMCU`.
 6. Select the correct port number of that board.
 7. Upload the code.
 ## Via ESP8266 Flasher
 1. Download the NodeMCU ESP8266 Flasher from [here](https://github.com/nodemcu/nodemcu-flasher) according to your operating system.
-2. Download the `.bin` file from [here](https://github.com/wirebits/WifiSnare/releases/download/v1.0/WifiSnare.bin).
+2. Download the `.bin` file from [here]().
 3. Open NodeMCU ESP8266 Flasher.
 4. Click on `Advanced` Tab.
 5. Click on `Restore Default` button.
@@ -55,17 +55,20 @@ It capture 2.4GHz WiFi passwords using Evil-Twin attack.
 9. Click on `Operation` Tab.
 10. Click on `Flash(F)` button.
 12. Wait for sometimes and when completed, press `RST` button.
+
 # Run the Script
 1. After uploading wait 1-2 minutes and after that an Access Point is created named `WiFiSnare` whose password is `wifisnare`.
 2. Connect to it.
-3. After few seconds, a page automatically opens where ask to enter the exact SSID name to start attack on it.
-4. Click on `Start Capture` button.
-5. After that, it disconnects the access point and as well as an open access point created with the same SSID name.
-6. Connect to that open WiFi.
-7. It show a page where it ask for password.
-8. Enter the password and click on `Sign Up` button.
+3. After few seconds, a page automatically opens where it show a table contain nearby wifi networks.
+4. Select the network want to attack.
+5. Click on `Start Deauth` button to start deauthentication attack on selected network.
+6. Click on `Start EvilTwin` button to start eviltwin attack on selected network.
+7. After that, it disconnects the access point and as well as an open access point created with the selected network SSID name.
+8. Connect to that open WiFi.
+9. It show a page where it ask for password.
+10. Enter the password and click on `Continue` button.
     - If password is wrong, then led of the board blink `2` times and back to the password page to enter password again.
-    - If password is right, then led of the board blink `3` times and after `2` seconds it close that open access point and restart the `WiFiSnare` access point.
-9. Connnct again to that `WiFiSnare` access point.
-10. At the bottom, it shows the password of that SSID and a download button to save the password to the Phone/PC/Laptop in a `.txt` file.
-11. Also, to attack on some other SSID, type the exact name and click on `Start Capture` button.
+    - If password is right, then led of the board blink `3` times and after `3` seconds it stops deauthentication attack, close that open access point and restart the `WiFiSnare` access point.
+11. Connnct again to that `WiFiSnare` access point.
+12. At the bottom, it shows the password of that SSID and a download button to save the password to the Phone/PC/Laptop in a `.txt` file.
+13. Also, to attack on some other SSID, just select the network want to attack and repeat steps from `5` to `12`.
