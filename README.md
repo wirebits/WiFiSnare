@@ -8,6 +8,7 @@ It capture 2.4GHz WiFi passwords using Evil-Twin attack.
 - Select network easily for eviltwin attack.
 - It deauthenticates network parallelly.
 - LED Status for Right and Wrong Passwords.
+- LED Status for checking that victim is connected or not.
 - Download captured password on the system in a `.txt` file.
 
 # Supported Board
