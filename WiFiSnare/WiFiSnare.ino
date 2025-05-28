@@ -22,7 +22,6 @@ IPAddress subNetMask(255, 255, 255, 0);
 const char *ssid = "WiFiSnare";
 const char *password = "wifisnare";
 
-const int apLED = 16;
 unsigned long now = 0;
 String tryPassword = "";
 const int statusLED = 2;
@@ -252,10 +251,6 @@ String controlPanelPage = "<!DOCTYPE html>"
                           "button:hover {opacity: 0.8;}"
                           ".button-container {margin-top: 20px; text-align: center;}"
                           ".button-container button {padding: 10px 20px; margin: 10px; font-size: 16px; cursor: pointer; border: none; border-radius: 4px; color: white;align-items: center;}"
-                          ".rescan-btn { background-color: #0313fc; color: white;}"
-                          ".deauth-btn { background-color: #0C873F; color: white;}"
-                          ".eviltwin-btn { background-color: #A55F31; color: white;}"
-                          ".settings-btn { background-color: #3480eb; color: white;}"
                           ".cred-btn { background-color: #b414cc; color: white;padding: 10px 20px; margin: 10px; font-size: 16px; cursor: pointer; border: none; border-radius: 4px;}"
                           ".select-btn {background-color: #eb3489; color: white; padding: 10px 20px; margin: 10px; font-size: 16px; cursor: pointer; border: none; border-radius: 4px;}"
                           ".selected-btn {background-color: #FFC72C; color: black; padding: 10px 20px; margin: 10px; font-size: 16px; cursor: pointer; border: none; border-radius: 4px;}"
@@ -322,10 +317,6 @@ void handleIndex() {
                         "button:hover {opacity: 0.8;}"
                         ".button-container {margin-top: 20px; text-align: center;}"
                         ".button-container button {padding: 10px 20px; margin: 10px; font-size: 16px; cursor: pointer; border: none; border-radius: 4px; color: white;align-items: center;}"
-                        ".rescan-btn { background-color: #0313fc; color: white;}"
-                        ".deauth-btn { background-color: #0C873F; color: white;}"
-                        ".eviltwin-btn { background-color: #A55F31; color: white;}"
-                        ".settings-btn { background-color: #3480eb; color: white;}"
                         ".cred-btn { background-color: #b414cc; color: white;padding: 10px 20px; margin: 10px; font-size: 16px; cursor: pointer; border: none; border-radius: 4px;}"
                         ".select-btn {background-color: #eb3489; color: white; padding: 10px 20px; margin: 10px; font-size: 16px; cursor: pointer; border: none; border-radius: 4px;}"
                         ".selected-btn {background-color: #FFC72C; color: black; padding: 10px 20px; margin: 10px; font-size: 16px; cursor: pointer; border: none; border-radius: 4px;}"
@@ -346,12 +337,10 @@ void handleIndex() {
   }
   controlPanel += "</table><hr><div class='button-container'>";
   String disabled = (selectedNetwork.ssid == "") ? "disabled" : "";
-  controlPanel += "<form style='display:inline-block;' method='post'><input type='hidden' name='rescan' value='1'>"
-                  "<button class='rescan-btn'>Rescan</button></form>";
   controlPanel += "<form style='display:inline-block;' method='post' action='/?deauth=" + String(deauthing_active ? "stop" : "start") + "'>"
-                  "<button class='deauth-btn' style='background-color: " + String(deauthing_active ? "#FF033E" : "#0C873F") + "; color: white;' " + disabled + ">Deauth</button></form>";
+                  "<button style='background-color: " + String(deauthing_active ? "#FF033E" : "#0C873F") + "; color: white;' " + disabled + ">Deauth</button></form>";
   controlPanel += "<form style='display:inline-block;' method='post' action='/?hotspot=" + String(hotspot_active ? "stop" : "start") + "'>"
-                  "<button class='eviltwin-btn' style='background-color: " + String(hotspot_active ? "#FF033E" : "#A55F31") + "; color: white;' " + disabled + ">EvilTwin</button></form>";
+                  "<button style='background-color: " + String(hotspot_active ? "#FF033E" : "#A55F31") + "; color: white;' " + disabled + ">EvilTwin</button></form>";
   controlPanel += "</div>";
   if (correctPassword != "") {
     controlPanel += "<h3>" + correctPassword + "</h3>";
@@ -424,8 +413,6 @@ void blinkLED(int times) {
 }
 void setup() {
   WiFi.mode(WIFI_AP_STA);
-  pinMode(apLED, OUTPUT);
-  digitalWrite(apLED, HIGH);
   wifi_promiscuous_enable(1);
   pinMode(statusLED, OUTPUT);
   digitalWrite(statusLED, HIGH);
@@ -463,11 +450,5 @@ void loop() {
     if (WiFi.status() != WL_CONNECTED) {
       wifinow = millis();
     }
-  }
-  int clientCount = WiFi.softAPgetStationNum();
-  if (clientCount > 0) {
-    digitalWrite(apLED, LOW);
-  } else {
-    digitalWrite(apLED, HIGH);
   }
 }
