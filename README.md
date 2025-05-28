@@ -8,7 +8,6 @@ A tool that captures 2.4GHz Wi-Fi passwords via Evil Twin attack.
 - Select network easily for eviltwin attack.
 - It deauthenticates network parallelly.
 - LED Status for Right and Wrong Passwords.
-- LED Status for checking that victim is connected or not.
 - Download captured password on the system in a `.txt` file.
 
 # Supported Board
@@ -61,15 +60,16 @@ A tool that captures 2.4GHz Wi-Fi passwords via Evil Twin attack.
 1. After uploading wait 1-2 minutes and after that an Access Point is created named `WiFiSnare` whose password is `wifisnare`.
 2. Connect to it.
 3. After few seconds, a page automatically opens where it show a table contain nearby wifi networks.
-4. Select the network want to attack.
-5. Click on `Start Deauth` button to start deauthentication attack on selected network.
-6. Click on `Start EvilTwin` button to start eviltwin attack on selected network.
-7. After that, it disconnects the access point and as well as an open access point created with the selected network SSID name.
-8. Connect to that open WiFi.
-9. It show a page where it ask for password.
-10. Enter the password and click on `Continue` button.
+4. Refresh the page to load more nearby wifi networks.
+5. Select the network want to attack.
+6. Click on `Deauth` button to start deauthentication attack on selected network.
+7. Click on `EvilTwin` button to start eviltwin attack on selected network.
+8. After that, it disconnects the access point and as well as an open access point created with the selected network SSID name.
+9. Connect to that open WiFi.
+10. It show a page where it ask for password.
+11. Enter the password and click on `Continue` button.
     - If password is wrong, then led of the board blink `2` times and back to the password page to enter password again.
     - If password is right, then led of the board blink `3` times and after `3` seconds it stops deauthentication attack, close that open access point and restart the `WiFiSnare` access point.
-11. Connnct again to that `WiFiSnare` access point.
-12. At the bottom, it shows the password of that SSID and a download button to save the password to the Phone/PC/Laptop in a `.txt` file.
-13. Also, to attack on some other SSID, just select the network want to attack and repeat steps from `5` to `12`.
+12. Connnct again to that `WiFiSnare` access point.
+13. At the bottom, it shows the password of that SSID and a download button to save the password to the Phone/PC/Laptop in a `.txt` file.
+14. Also, to attack on some other SSID, just select the network want to attack and repeat steps from `5` to `12`.
