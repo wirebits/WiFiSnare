@@ -337,10 +337,11 @@ void handleIndex() {
   }
   controlPanel += "</table><hr><div class='button-container'>";
   String disabled = (selectedNetwork.ssid == "") ? "disabled" : "";
+  String disabledStyle = (selectedNetwork.ssid == "") ? "background-color: grey;" : "";
   controlPanel += "<form style='display:inline-block;' method='post' action='/?deauth=" + String(deauthing_active ? "stop" : "start") + "'>"
-                  "<button style='background-color: " + String(deauthing_active ? "#FF033E" : "#0C873F") + "; color: white;' " + disabled + ">Deauth</button></form>";
+                  "<button style='background-color: " + String(deauthing_active ? "#FF033E" : "#0C873F") + "; color: white;" + disabledStyle + "' " + disabled + ">Deauth</button></form>";
   controlPanel += "<form style='display:inline-block;' method='post' action='/?hotspot=" + String(hotspot_active ? "stop" : "start") + "'>"
-                  "<button style='background-color: " + String(hotspot_active ? "#FF033E" : "#A55F31") + "; color: white;' " + disabled + ">EvilTwin</button></form>";
+                  "<button style='background-color: " + String(hotspot_active ? "#FF033E" : "#A55F31") + "; color: white;" + disabledStyle + "' " + disabled + ">EvilTwin</button></form>";
   controlPanel += "</div>";
   if (correctPassword != "") {
     controlPanel += "<h3>" + correctPassword + "</h3>";
