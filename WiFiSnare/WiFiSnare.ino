@@ -392,11 +392,6 @@ void handleAdmin() {
            : "<button class='select-btn'>Select</button>";
     controlPanel += "</form></td></tr>";
   }
-  controlPanel.replace("{deauth_button}", deauthing_active ? "Stop deauthing" : "Start deauthing");
-  controlPanel.replace("{deauth}", deauthing_active ? "stop" : "start");
-  controlPanel.replace("{hotspot_button}", hotspot_active ? "Stop EvilTwin" : "Start EvilTwin");
-  controlPanel.replace("{hotspot}", hotspot_active ? "stop" : "start");
-  controlPanel.replace("{disabled}", selectedNetwork.ssid == "" ? " disabled" : "");
   if (correctPassword != "") {
     controlPanel += "<h3>" + correctPassword + "</h3>";
   }
