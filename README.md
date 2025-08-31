@@ -1,21 +1,21 @@
-![WifiSnare](https://github.com/user-attachments/assets/23dad4db-6bda-4d47-b5af-698ed5451e18)
+<img width="2048" height="2048" alt="WifiSnare" src="https://github.com/user-attachments/assets/0c3a1ea6-dba0-428b-8f6c-3cedef2a88d2" />
 
-# WiFiSnare
+# 🛜WiFiSnare
 A tool that captures 2.4GHz Wi-Fi passwords via Evil Twin attack.
 
-# Key Features
+# ✨Features
 - Simple Setup.
 - Select network easily for eviltwin attack.
 - It deauthenticates network parallelly.
 - LED Status for Right and Wrong Passwords.
 - Download captured password on the system in a `.txt` file.
 
-# Supported Board
+# 👍🏻Supported Board
 - It supports microcontroller boards which contain `ESP8266` chipset only.
 - It supports 2.4GHz frequency only.
 - If possible, use those ESP8266 microcontroller boards which contain `CP2102` driver chipset.
 
-# Setup
+# ⚙️Setup
 1. Download Arduino IDE from [here](https://www.arduino.cc/en/software) according to your Operating System.
 2. Install it.
 3. Go to `File` → `Preferences` → `Additional Boards Manager URLs`.
@@ -32,7 +32,7 @@ A tool that captures 2.4GHz Wi-Fi passwords via Evil Twin attack.
 10. Restart the Arduino IDE.
 11. Done!
 
-# Install
+# ⚙️Install
 ## Via Arduino IDE
 1. Download or Clone the Repository.
 2. Open the folder and just double click on `WiFiSnare.ino` file.
@@ -56,7 +56,7 @@ A tool that captures 2.4GHz Wi-Fi passwords via Evil Twin attack.
 10. Click on `Flash(F)` button.
 12. Wait for sometimes and when completed, press `RST` button.
 
-# Run the Script
+# 🏃🏻‍♂️Run the Script
 1. After uploading wait 1-2 minutes and after that an Access Point is created named `WiFiSnare` whose password is `wifisnare`.
 2. Connect to it.
 3. After few seconds, a page automatically opens where it show a table contain nearby wifi networks.
